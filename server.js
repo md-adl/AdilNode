@@ -3,6 +3,8 @@ var app=express();
 var userRouter=require('./Router/userRouter');
 var bodyParser=require('body-parser');
 var mongoose=require('mongoose');
+const ejs = require('ejs');
+const path = require('path');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -14,6 +16,8 @@ mongoose.connect('mongodb+srv://garvthadani:123Gaurav@cluster0.sa0jbba.mongodb.n
   console.log("connected to db")
 })
 
+app.set('view engine', 'ejs'); // Set EJS as the view engine
+app.set('views', path.join(__dirname, 'views'));
 app.use('/api/v1/user',userRouter);
 
 
