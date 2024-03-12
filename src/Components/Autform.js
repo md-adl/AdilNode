@@ -11,7 +11,7 @@ const AuthForm = ({ onAuthSuccess }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoginPage, setIsLoginPage] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [signupSuccessMessage, setSignupSuccessMessage] = useState('');
   const handleSignup = async () => {
     try {
       const response = await axios.post('http://localhost:5001/api/v1/user/signupUser', {
@@ -22,7 +22,11 @@ const AuthForm = ({ onAuthSuccess }) => {
       });
       console.log(response);
       onAuthSuccess();
-      setIsLoggedIn(true);
+      setSignupSuccessMessage("SuccesFully SingUp")
+      setTimeout(() => {
+        setIsLoginPage(true);
+        setSignupSuccessMessage("")
+      }, 2000);
     } catch (error) {
       console.error('Error signing up:', error);
     }
@@ -55,6 +59,11 @@ const AuthForm = ({ onAuthSuccess }) => {
             <Dashboard username = {username} email={email}/>
           ) : (
             <>
+            {signupSuccessMessage && (
+                <div className="alert alert-success" role="alert">
+                  {signupSuccessMessage}
+                </div>
+              )}
               {isLoginPage ? (
                 <>
                   <h2>Login</h2>
